@@ -1,0 +1,23 @@
+[entryPoints]
+  [entryPoints.web]
+    address = ":80"
+    [entryPoints.web.http.redirections.entryPoint]
+      to = "websecure"
+      scheme = "https"
+
+  [entryPoints.websecure]
+    address = ":443"
+
+[providers]
+  [providers.docker]
+    exposedByDefault = false  # ⚠️ Expose uniquement les services avec "traefik.enable=true"
+
+[api]
+  dashboard = true
+  insecure = false  # Sécuriser plus tard avec Auth
+
+[certificatesResolvers.myresolver.acme]
+  email = "EMAIL@EXEMPLE.COM"
+  storage = "/letsencrypt/acme.json"
+  [certificatesResolvers.myresolver.acme.httpChallenge]
+    entryPoint = "web"
