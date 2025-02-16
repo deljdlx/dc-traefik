@@ -8,6 +8,9 @@
   [entryPoints.websecure]
     address = ":443"
 
+  [entryPoints.wss]
+    address = ":8443"
+
 [providers]
   [providers.docker]
     exposedByDefault = false  # ⚠️ Expose uniquement les services avec "traefik.enable=true"
