@@ -1,0 +1,17 @@
+name: Call Shared Deployment
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy-sandbox:
+    uses: deljdlx/github-tools/.github/workflows/deploy.yml@main
+    with:
+      host_name: "traefik.jlb.ninja"
+      repo_name: "dc-traefik"
+      repo_owner: "deljdlx"
+      deploy_folder: "/home/jdlxt/stack"
+    secrets:
+      ssh_key: ${{ secrets.DEPLOY_KEY }}
