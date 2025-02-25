@@ -26,7 +26,29 @@ services:
       - "traefik.http.routers.api.entrypoints=websecure"
       - "traefik.http.routers.api.tls.certresolver=myresolver"
 
+
+      - "traefik.http.middlewares.nginx-middleware.addprefix.prefix=/"
+      - "traefik.http.middlewares.use-nginx-middleware.chain.middlewares=nginx-middleware"
+
+
+  nginx-middleware:
+    image: nginx:alpine
+    container_name: nginx-middleware
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nginx-middleware.rule=HostRegexp(`{host:.+}`)"
+      - "traefik.http.routers.nginx-middleware.entrypoints=web,websecure"
+      - "traefik.http.routers.nginx-middleware.tls.certresolver=myresolver"
+      - "traefik.http.services.nginx-middleware.loadbalancer.server.port=80"
+
+
+
 networks:
   web:
-    name: web  # 🔥 Auto-créé s'il n'existe pas encore
+    name: web
 
