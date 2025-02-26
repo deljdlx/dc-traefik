@@ -1,3 +1,4 @@
 .env
+.vscode
 acme.json
 traefik.toml
